@@ -2,4 +2,4 @@
 .terraform/
 **.tfstate*
 .prettierrc
-.terraform.lock.hcl
+*.terraform.lock.hcl
