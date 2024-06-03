@@ -1,19 +1,19 @@
-# Deploying a Static Website with S3
+# S3로 정적 웹사이트 배포하기
 
-This project is designed to provide hands-on experience with deploying a static website using Amazon S3 and Terraform. The goal is to create an S3 bucket, host files for the static website, and manage access permissions and policies. This project is a great opportunity to learn about AWS S3, Terraform, and the principles of Infrastructure as Code (IaC). Make sure to use Terraform for as many resources as possible, and remember to delete all the resources at the end of the project to avoid unnecessary costs.
+이 프로젝트는 Amazon S3와 Terraform을 사용하여 정적 웹사이트를 배포하는 실습 경험을 제공하기 위해 고안되었습니다. 목표는 S3 버킷을 만들고, 정적 웹사이트용 파일을 호스팅하고, 액세스 권한 및 정책을 관리하는 것입니다. 이 프로젝트는 AWS S3, Terraform, 그리고 코드형 인프라(IaC)의 원리에 대해 배울 수 있는 좋은 기회입니다. 가능한 한 많은 리소스에 Terraform을 사용하고 프로젝트가 끝나면 불필요한 비용을 피하기 위해 모든 리소스를 삭제하는 것을 잊지 마세요.
 
 ## Desired Outcome
 
-1. Deploy an S3 bucket that will host the files for the static website.
-2. Create an `index.html` file and an `error.html` file containing some dummy text.
-    1. **Hint:** Here is a source where you can find a [basic template](https://ryanstutorials.net/html-tutorial/html-template.php).
-3. In a first moment, upload these files manually to the bucket via the AWS console. They should be placed in the root directory of the bucket. Later we will upload these files via Terraform.
-4. Disable public access block so that others can access the bucket via the internet.
-5. Create a policy that allows the `s3:GetObject` action for anyone and for all objects within the created bucket.
-6. Create an S3 static website configuration, and link it to the existing bucket.
-7. Create an output with the S3 Static Website endpoint.
-8. After testing that you can access the website via the internet, let's now update the files via Terraform.
-    1. Delete the files from the S3 bucket.
-    2. Use Terraform to create `aws_s3_object` resources and upload the files.
-9. Tag resources with useful information about your project.
-10. Make sure to delete all the resources at the end of the project!
+1. 정적 웹사이트의 파일을 호스팅할 S3 버킷을 배포합니다.
+2. `index.html` 파일과 더미 텍스트가 포함된 `error.html` 파일을 만듭니다.
+    1. **Hint:** 다음은 [기본 템플릿](https://ryanstutorials.net/html-tutorial/html-template.php)을 찾을 수 있는 소스입니다
+3. 먼저 AWS 콘솔을 통해 이러한 파일을 버킷에 수동으로 업로드합니다. 이 파일들은 버킷의 루트 디렉토리에 위치해야 합니다. 나중에 Terraform을 통해 이 파일들을 업로드할 것입니다.
+4. 다른 사람들이 인터넷을 통해 버킷에 액세스할 수 있도록 공개 액세스 블록을 비활성화합니다.
+5. 생성된 버킷 내의 모든 오브젝트에 대해 누구나 `s3:GetObject` 작업을 허용하는 정책을 만듭니다.
+6. S3 정적 웹사이트 구성을 생성하고 기존 버킷에 연결합니다.
+7. S3 정적 웹사이트 엔드포인트로 출력을 생성합니다.
+8. 인터넷을 통해 웹사이트에 액세스할 수 있는지 테스트한 후, 이제 Terraform을 통해 파일을 업데이트해 보겠습니다.
+    1. S3 버킷에서 파일을 삭제합니다.
+    2. Terraform을 사용하여 `aws_s3_object` 리소스를 생성하고 파일을 업로드합니다.
+9. 프로젝트에 대한 유용한 정보로 리소스에 태그를 지정합니다.
+10. 프로젝트가 끝나면 모든 리소스를 삭제하세요!
