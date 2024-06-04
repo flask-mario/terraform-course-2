@@ -1,42 +1,42 @@
-# Using Data Sources to Fetch VPC Information
+# 데이터 소스를 사용하여 VPC 정보 가져오기
 
 ## Introduction
 
-In this exercise, we will learn how to fetch information from a Virtual Private Cloud (VPC) that has been manually created in the AWS console. This will be accomplished by using an `aws_vpc` data source block and specifying filter criteria. This process will provide you with a hands-on understanding of how to retrieve and utilize data about existing resources in your AWS infrastructure.
+이 연습에서는 AWS 콘솔에서 수동으로 생성한 가상 프라이빗 클라우드(VPC)에서 정보를 가져오는 방법을 배웁니다. 이 작업은 `aws_vpc` 데이터 소스 블록을 사용하고 필터 기준을 지정하여 수행됩니다. 이 과정을 통해 AWS 인프라의 기존 리소스에 대한 데이터를 검색하고 활용하는 방법을 실습을 통해 이해할 수 있습니다.
 
 ## Desired Outcome
 
-If you wish to give it a shot before looking into the detailed step-by-step and the solution videos, here is an overview of what the created solution should deploy:
+자세한 단계별 내용과 솔루션 동영상을 살펴보기 전에 한 번 사용해 보고 싶은 경우, 생성된 솔루션이 배포해야 하는 내용을 간략하게 살펴보세요:
 
-1. Manually create a Virtual Private Cloud (VPC) in the AWS console with the following configuration:
+1. 다음 구성을 사용하여 AWS 콘솔에서 가상 프라이빗 클라우드(VPC)를 수동으로 생성합니다:
     - Name: console-managed
     - Environment (`Env`) tag: Prod
     - CIDR Block: 10.0.0.0/16
-2. Fetch the VPC information based on the `Env` tag via a `aws_vpc` data source block that specifies the correct filter criteria.
-3. Define an output to display the `id` of the retrieved VPC.
+2. 올바른 필터 기준을 지정하는 `aws_vpc` 데이터 소스 블록을 통해 `Env` 태그를 기반으로 VPC 정보를 가져옵니다.
+3. 검색된 VPC의 `id`를 표시할 출력을 정의합니다.
 
 ## Step-by-Step Guide
 
-### Creating a VPC in the Console
+### 콘솔에서 VPC 만들기
 
-For us to be able to fetch information from a VPC managed outside our project, let’s create one manually in the AWS console:
+프로젝트 외부에서 관리되는 VPC에서 정보를 가져올 수 있도록 AWS 콘솔에서 수동으로 VPC를 생성해 보겠습니다:
 
-1. Log in to the AWS Management Console and navigate to the VPC Dashboard.
-2. Click on the "Your VPCs" link in the left-hand menu.
-3. Click the "Create VPC" button.
-4. Select the “VPC Only” option when AWS asks you whether to create only the VPC or also related resources.
-5. Add a `Name` tag with the value `console-managed`.
-6. Add an `Env` tag with the value `Prod`.
-7. Set `10.0.0.0/16` as the CIDR Block.
-8. Leave the rest of the settings at their default values.
-9. Click the "Create" button.
-10. Your new VPC should now be visible in your VPCs list.
+1. AWS 관리 콘솔에 로그인하고 VPC 대시보드로 이동합니다.
+2. 왼쪽 메뉴에서 "내 VPC" 링크를 클릭합니다.
+3. "VPC 생성" 버튼을 클릭합니다.
+4. AWS에서 VPC만 생성할지 아니면 관련 리소스도 생성할지 묻는 메시지가 표시되면 "VPC만" 옵션을 선택합니다.
+5. `console-managed` 값으로 `Name` 태그를 추가합니다.
+6. `Prod` 값과 함께 `Env` 태그를 추가합니다.
+7. `10.0.0.0/16`을 CIDR 블록으로 설정합니다.
+8. 나머지 설정은 기본값으로 둡니다.
+9. "생성" 버튼을 클릭합니다.
+10. 이제 새 VPC가 VPC 목록에 표시됩니다.
 
-### Using Data Source to Fetch VPC Information
+### 데이터 소스를 사용하여 VPC 정보 가져오기
 
-With the VPC created, we can now proceed to fetch its information using a data source in Terraform. A data source in Terraform is a read-only access to existing resources in your infrastructure that might be managed outside of Terraform, or that you only need for reference in your Terraform code.
+VPC가 생성되었으므로 이제 Terraform의 데이터 소스를 사용하여 해당 정보를 가져올 수 있습니다. Terraform의 데이터 소스는 인프라의 기존 리소스에 대한 읽기 전용 액세스 권한으로, 테라폼 외부에서 관리되거나 테라폼 코드에서 참조용으로만 필요할 수 있습니다.
 
-1. Define an `aws_vpc` data source block and specify the filter criteria to use the `Env` tag we have set in the previous section.
+1. `aw_vpc` 데이터 소스 블록을 정의하고 이전 섹션에서 설정한 `Env` 태그를 사용하도록 필터 기준을 지정합니다.
 
     ```
     data "aws_vpc" "prod_vpc" {
@@ -46,7 +46,7 @@ With the VPC created, we can now proceed to fetch its information using a data s
     }
     ```
 
-2. Define an output value that shows the `id` of the retrieved VPC.
+2. 검색된 VPC의 `id`를 표시하는 출력 값을 정의합니다.
 
     ```
     output "prod_vpc_id" {
@@ -54,8 +54,8 @@ With the VPC created, we can now proceed to fetch its information using a data s
     }
     ```
 
-3. Try to provide a non-existing value for the `Env` tag. What happens when we run a `terraform plan`?
+3. `Env` 태그에 존재하지 않는 값을 입력해 보세요. `terraform plan`을 실행하면 어떻게 되나요?
 
 ## Congratulations on Completing the Exercise!
 
-Great job on completing this exercise! You've learned how to fetch information from a Virtual Private Cloud (VPC) that has been manually created in the AWS console. Keep up the good work!
+이 연습을 완료해 주셔서 감사합니다! AWS 콘솔에서 수동으로 생성한 가상 프라이빗 클라우드(VPC)에서 정보를 가져오는 방법을 배웠습니다. 계속 열심히 하세요!
