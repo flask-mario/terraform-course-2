@@ -1,33 +1,33 @@
-# Using Data Sources to Fetch AWS Caller Identity and Region
+# 데이터 소스를 사용하여 AWS 호출자 신원 및 지역 가져오기
 
 ## Introduction
 
-In this exercise, we will be focusing on understanding and utilizing the AWS Caller Identity and AWS Region Data Sources. The aim is to define data sources for both AWS Caller Identity and AWS Region. Then, we will output the returned identity of the caller and the current AWS region. It's a valuable practice to enhance your Terraform skills and familiarity with these particular aspects.
+이 연습에서는 AWS 발신자 신원 및 AWS 리전 데이터 소스의 이해와 활용에 중점을 두겠습니다. 목표는 AWS 발신자 신원 및 AWS 리전 모두에 대한 데이터 소스를 정의하는 것입니다. 그런 다음 호출자의 반환된 ID와 현재 AWS 리전을 출력할 것입니다. 테라폼 기술을 향상시키고 이러한 특정 측면에 대한 친숙도를 높이는 데 유용한 연습입니다.
 
 ## Desired Outcome
 
-If you wish to give it a shot before looking into the detailed step-by-step and the solution videos, here is an overview of what the created solution should deploy:
+자세한 단계별 내용과 솔루션 동영상을 살펴보기 전에 한 번 사용해 보고 싶은 경우, 생성된 솔루션이 배포해야 하는 내용을 간략하게 살펴보세요:
 
-1. AWS Caller Identity Data Source: This data source should be defined to return the identity of the caller.
-2. AWS Region Data Source: This data source should be defined to get the current AWS region.
-3. AWS Caller Identity Output: This output should return the identity of the caller.
-4. AWS Region Output: This output should return the current AWS region.
+1. AWS 발신자 신원 데이터 소스: 이 데이터 소스는 호출자의 신원을 반환하도록 정의해야 합니다.
+2. AWS 리전 데이터 소스: 이 데이터 소스는 현재 AWS 리전을 가져오도록 정의해야 합니다.
+3. AWS 호출자 신원 출력: 이 출력은 호출자의 신원을 반환해야 합니다.
+4. AWS 리전 출력: 이 출력은 현재 AWS 리전을 반환해야 합니다.
 
 ## Step-by-Step Guide
 
-1.  First, define the data source for the AWS Caller Identity. This data source is used to return the identity of the caller. This is achieved with the following code:
+1.  먼저 AWS 호출자 신원에 대한 데이터 소스를 정의합니다. 이 데이터 소스는 호출자의 ID를 반환하는 데 사용됩니다. 이는 다음 코드를 사용하여 수행됩니다:
 
     ```
     data "aws_caller_identity" "current" {}
     ```
 
-2.  Next, define the data source for the AWS Region. This data source is used to get the current region. This is done with the following code:
+2.  다음으로 AWS 리전에 대한 데이터 소스를 정의합니다. 이 데이터 소스는 현재 지역을 가져오는 데 사용됩니다. 이 작업은 다음 코드를 사용하여 수행합니다:
 
     ```
     data "aws_region" "current" {}
     ```
 
-3.  Then, output the AWS Caller Identity. This will return the identity of the caller. This is done with the following code:
+3.  그런 다음 AWS 호출자 ID를 출력합니다. 그러면 호출자의 ID가 반환됩니다. 이 작업은 다음 코드를 사용하여 수행합니다:
 
     ```
     output "aws_caller_identity" {
@@ -35,9 +35,9 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-    Which kind of information is retrieved through this data source?
+    이 데이터 소스를 통해 검색되는 정보의 종류는 무엇인가요?
 
-4.  Finally, output the AWS Region. This will return the current region. This is done with the following code:
+4.  마지막으로 AWS 리전을 출력합니다. 그러면 현재 지역이 반환됩니다. 이 작업은 다음 코드를 사용하여 수행합니다:
 
     ```
     output "aws_region" {
@@ -45,8 +45,8 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-    Which kind of information is retrieved through this data source?
+    이 데이터 소스를 통해 검색되는 정보의 종류는 무엇인가요?
 
 ## Congratulations on Completing the Exercise!
 
-Well done on successfully completing the exercise on AWS Caller Identity and Region! You've taken another important step in enhancing your Terraform skills. Keep up the great work!
+AWS Caller 신원 및 리전에 대한 연습을 성공적으로 완료하셨습니다! 테라폼 기술을 향상시키는 데 있어 또 하나의 중요한 단계를 밟으셨습니다. 계속 열심히 하세요!
