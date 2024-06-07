@@ -1,19 +1,19 @@
-# Using Data Sources to Create AWS IAM Policies
+# 데이터 소스를 사용하여 AWS IAM 정책 생성하기
 
 ## Introduction
 
-In this exercise, we will be creating AWS IAM Policies. IAM policies define permissions and can be attached to IAM identities or groups. Our primary objective is to create a policy that gives read access to all objects in S3 buckets for all users. This is essential for making a static website publicly accessible. We will use the `aws_iam_policy_document` data source to create our policy document. The completed policy document will be outputted in JSON format for use in other parts of the code.
+이 연습에서는 AWS IAM 정책을 생성합니다. IAM 정책은 권한을 정의하며 IAM ID 또는 그룹에 연결할 수 있습니다. 우리의 주요 목표는 모든 사용자에게 S3 버킷의 모든 개체에 대한 읽기 액세스 권한을 부여하는 정책을 만드는 것입니다. 이는 정적 웹사이트를 공개적으로 액세스할 수 있도록 만드는 데 필수적입니다. 정책 문서를 만들기 위해 `aws_iam_policy_document` 데이터 소스를 사용하겠습니다. 완성된 정책 문서는 코드의 다른 부분에서 사용할 수 있도록 JSON 형식으로 출력됩니다.
 
 ## Desired Outcome
 
-If you wish to give it a shot before looking into the detailed step-by-step and the solution videos, here is an overview of what the created solution should deploy:
+자세한 단계별 내용과 솔루션 동영상을 살펴보기 전에 한 번 사용해 보고 싶은 경우, 생성된 솔루션이 배포해야 하는 내용을 간략하게 살펴보세요:
 
-1. Create an IAM policy document using the `aws_iam_policy_document` data source. The policy should apply to all users and give read access to all objects in S3 buckets.
-2. Output the policy document in JSON format for use elsewhere in the code.
+1. `aws_iam_policy_document` 데이터 소스를 사용하여 IAM 정책 문서를 생성합니다. 이 정책은 모든 사용자에게 적용되어야 하며 S3 버킷의 모든 개체에 대한 읽기 액세스 권한을 부여해야 합니다.
+2. 코드의 다른 곳에서 사용할 수 있도록 정책 문서를 JSON 형식으로 출력합니다.
 
 ## Step-by-Step Guide
 
-1. Create an IAM policy document by leveraging the `aws_iam_policy_document` data source. This document will specify the permissions that are being granted. In our case, we're creating a policy document that allows read access to all objects in S3 buckets.
+1. `aws_iam_policy_document` 데이터 소스를 활용하여 IAM 정책 문서를 만듭니다. 이 문서에는 부여되는 권한이 명시됩니다. 여기서는 S3 버킷의 모든 개체에 대한 읽기 액세스를 허용하는 정책 문서를 만들고 있습니다.
 
     ```
     data "aws_iam_policy_document" "static_website" {
@@ -32,13 +32,13 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-    In the `principals` block, we specify that the policy applies to all users (`type = "*"`) because we want the static website to be publicly accessible.
+    `principals` 블록에서는 정적 웹사이트를 공개적으로 액세스할 수 있도록 하기 위해 모든 사용자에게 정책이 적용되도록 지정합니다(`type = "*"`).
 
-    In the `actions` block, we specify the "s3:GetObject" action. This allows users to retrieve objects from the S3 bucket.
+    `actions` 블록에서 "s3:GetObject" 액션을 지정합니다. 이를 통해 사용자는 S3 버킷에서 개체를 검색할 수 있습니다.
 
-    The `resources` block specifies the resources to which the action applies. In this case, it applies to all objects in all S3 buckets (as indicated by the `"*"` wildcard characters).
+    `resources` 블록은 작업이 적용되는 리소스를 지정합니다. 이 경우 모든 S3 버킷의 모든 개체에 적용됩니다(`"*"` 와일드카드 문자로 표시됨).
 
-2. After defining the policy document, output it in JSON format so it can be used elsewhere in the code.
+2. 정책 문서를 정의한 후 코드의 다른 곳에서 사용할 수 있도록 JSON 형식으로 출력합니다.
 
     ```
     output "iam_policy" {
@@ -46,8 +46,8 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-    The `value = data.aws_iam_policy_document.static_website.json` line converts the policy document into JSON format.
+    `value = data.aws_iam_policy_document.static_website.json` 줄은 정책 문서를 JSON 형식으로 변환합니다.
 
 ## Congratulations on Completing the Exercise!
 
-Well done on successfully completing this exercise! You have now acquired the knowledge to create AWS IAM Policies, a crucial skill for managing access to resources on AWS. Keep practicing to solidify your understanding. Great job!
+이 연습을 성공적으로 완료하셨습니다! 이제 AWS에서 리소스에 대한 액세스를 관리하는 데 중요한 기술인 AWS IAM 정책을 생성하는 지식을 습득하셨습니다. 계속 연습하여 이해를 더욱 확고히 하세요. 수고하셨습니다!
