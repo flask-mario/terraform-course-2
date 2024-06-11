@@ -1,20 +1,20 @@
-# Using Objects for Volume Configuration
+# 볼륨 구성에 오브젝트 사용
 
 ## Introduction
 
-In this exercise, we will delve into the use of objects for volume configuration in EC2 instances. This concept allows us to encapsulate related configuration details into a single, more manageable entity. We will also explore how to incorporate additional tags to an EC2 instance, providing us with more flexibility in managing our AWS resources. This exercise will help reinforce your understanding of Terraform variables and resources, and how they can be used to create more efficient and flexible configurations.
+이 연습에서는 EC2 인스턴스에서 볼륨 구성을 위한 객체 사용에 대해 살펴보겠습니다. 이 개념을 사용하면 관련 구성 세부 정보를 보다 관리하기 쉬운 단일 엔티티로 캡슐화할 수 있습니다. 또한 EC2 인스턴스에 추가 태그를 통합하여 AWS 리소스를 보다 유연하게 관리하는 방법도 살펴봅니다. 이 실습을 통해 Terraform 변수와 리소스에 대한 이해를 강화하고, 이를 사용하여 보다 효율적이고 유연한 구성을 만드는 방법을 배울 수 있습니다.
 
 ## Desired Outcome
 
-If you wish to give it a shot before looking into the detailed step-by-step and the solution videos, here is an overview of what the created solution should deploy:
+자세한 단계별 내용과 솔루션 동영상을 살펴보기 전에 한 번 사용해 보고 싶다면 생성된 솔루션이 배포해야 하는 내용을 간략하게 살펴보세요:
 
-1. Create a variable `ec2_volume_config`, which contains the volume type and volume type of the root block device for the EC2 instance.
-2. Create a variable `additional_tags`, which allows the user to define additional tags to the EC2 instance.
-3. Update the EC2 instance configuration to leverage the new variables.
+1. EC2 인스턴스에 대한 루트 블록 디바이스의 볼륨 유형과 볼륨 유형이 포함된 변수 `ec2_volume_config`를 생성합니다.
+2. 사용자가 EC2 인스턴스에 추가 태그를 정의할 수 있는 `additional_tags` 변수를 생성합니다.
+3. 새 변수를 활용하도록 EC2 인스턴스 구성을 업데이트합니다.
 
 ## Step-by-Step Guide
 
-1. Migrate from using the `ec2_volume_type` and `ec2_volume_size` variables to using a single `ec2_volume_config` variable, which is of type `object`. Set sensible defaults and add a helpful description to the new variable.
+1. `ec2_volume_type` 및 `ec2_volume_size` 변수 사용에서 `object` 유형인 단일 `ec2_volume_config` 변수 사용으로 마이그레이션합니다. 합리적인 기본값을 설정하고 새 변수에 유용한 설명을 추가합니다.
 
     ```
     variable "ec2_volume_config" {
@@ -31,7 +31,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-2. Add a new `additional_tags` variable, which is of type `map` of strings and is empty by default. This will allow us to add more tags to our resources if needed.
+2. 문자열의 `map` 유형이며 기본적으로 비어 있는 새 `additional_tags` 변수를 추가합니다. 이렇게 하면 필요한 경우 리소스에 태그를 더 추가할 수 있습니다.
 
     ```
     variable "additional_tags" {
@@ -40,7 +40,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-3. Migrate the EC2 instance resource to use the new variables.
+3. 새 변수를 사용하도록 EC2 인스턴스 리소스를 마이그레이션합니다.
 
     ```
     resource "aws_instance" "compute" {
@@ -61,4 +61,4 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
 
 ## Congratulations on Completing the Exercise!
 
-Great job on completing this exercise! You have successfully learned how to use variables of type `object` and `map`. Keep up the good work!
+이 연습을 완료해 주셔서 감사합니다! `object` 및 `map` 유형의 변수를 사용하는 방법을 성공적으로 배웠습니다. 계속 열심히 공부하세요!

@@ -2,11 +2,11 @@
 
 ## Introduction
 
-In this exercise, we will explore how to work with outputs in Terraform. Outputs are a way to expose data about your resources and modules, and can be very helpful in understanding the state of your resources or for integrating with other systems. We will be defining locals, setting up an S3 bucket, and creating an output for the bucket name. We will then run and inspect the output in the terminal and learn how to retrieve the output value outside of Terraform. Let's get started!
+이 연습에서는 Terraform에서 출력으로 작업하는 방법을 살펴보겠습니다. 출력은 리소스와 모듈에 대한 데이터를 노출하는 방법으로, 리소스의 상태를 이해하거나 다른 시스템과 통합하는 데 매우 유용할 수 있습니다. 로컬을 정의하고, S3 버킷을 설정하고, 버킷 이름에 대한 출력을 생성하겠습니다. 그런 다음 터미널에서 출력을 실행하고 검사하고 Terraform 외부에서 출력 값을 검색하는 방법을 배워보겠습니다. 시작해 봅시다!
 
 ## Step-by-Step Guide
 
-1. Make sure that you have the locals defined according to previous exercises.
+1. 이전 연습에 따라 로컬을 정의했는지 확인합니다.
 
     ```
     locals {
@@ -27,7 +27,7 @@ In this exercise, we will explore how to work with outputs in Terraform. Outputs
     }
     ```
 
-2. Also make sure that the S3 bucket is correctly setup, together with a `random_id` for the suffix. You can comment out the EC2 instance code so that the terraform apply command completes faster.
+2. 또한 접미사로 `random_id`와 함께 S3 버킷이 올바르게 설정되어 있는지 확인하세요. EC2 인스턴스 코드를 주석 처리하여 terraform apply 명령이 더 빨리 완료되도록 할 수 있습니다.
 
     ```
     # s3.tf
@@ -59,7 +59,7 @@ In this exercise, we will explore how to work with outputs in Terraform. Outputs
     # }
     ```
 
-3. Create an output named `s3_bucket_name` to output the bucket name. Add a suitable description to the output.
+3. 버킷 이름을 출력하는 `s3_bucket_name`이라는 출력을 생성합니다. 출력에 적절한 설명을 추가합니다.
 
     ```
     output "s3_bucket_name" {
@@ -68,10 +68,10 @@ In this exercise, we will explore how to work with outputs in Terraform. Outputs
     }
     ```
 
-4. Run and confirm a terraform apply command, and inspect what is output in the terminal.
-5. To retrieve the output value outside terraform, run the command `terraform output <output name>`. In our case, this would be `terraform output s3_bucket_name`
-    1. You can also add a `-raw` flag to omit the double quotes, so that the value of the output can be used in other shell commands.
+4. terraform apply 명령을 실행하고 확인한 후 터미널에서 출력되는 내용을 확인합니다.
+5. 테라폼 외부에서 출력 값을 검색하려면 `terraform output <output name>` 명령을 실행합니다. 이 경우 `terraform output s3_bucket_name`이 됩니다.
+    1. 큰따옴표를 생략하는 `-raw` 플래그를 추가하여 출력값을 다른 셸 명령에서 사용할 수 있도록 할 수도 있습니다.
 
 ## Congratulations on Completing the Exercise!
 
-Great job on completing this exercise! You've taken another significant step in understanding how to work with outputs in Terraform. Keep up the good work, and continue to apply and improve on what you've learned as you progress through the course.
+이 연습을 완료해 주셔서 감사합니다! 여러분은 테라폼에서 출력물을 다루는 방법을 이해하는 데 또 한 걸음 더 나아갔습니다. 과정을 진행하면서 배운 내용을 계속 적용하고 개선해 나가시기 바랍니다.
