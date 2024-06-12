@@ -2,11 +2,11 @@
 
 ## Introduction
 
-In this exercise, we will delve into the practical implementation of various functions in Terraform. We will explore how to use built-in functions to manipulate and transform data types. This includes, among others, working with string functions, mathematical computations, and file encoding and decoding functions. By the end of this exercise, you should have a firm understanding of how to utilize these functions effectively in your Terraform scripts.
+이 실습에서는 테라폼에서 다양한 함수를 실제로 구현하는 방법을 살펴봅니다. 내장 함수를 사용해 데이터 유형을 조작하고 변환하는 방법을 살펴봅니다. 여기에는 문자열 함수, 수학적 계산, 파일 인코딩 및 디코딩 함수로 작업하는 것이 포함됩니다. 이 연습이 끝날 때쯤이면 Terraform 스크립트에서 이러한 함수를 효과적으로 활용하는 방법을 확실히 이해하게 될 것입니다.
 
 ## Step-by-Step Guide
 
-1. Start by defining some local variables using the `locals` block. Declare a `name`, `age`, and `my_object`, which contain reasonable primitive and object values.
+1. `locals` 블록을 사용하여 몇 가지 로컬 변수를 정의하는 것으로 시작하세요. 합리적인 프리미티브 및 객체 값을 포함하는 `name`, `age`, `my_object`를 선언합니다.
 
     ```
     locals {
@@ -19,7 +19,7 @@ In this exercise, we will delve into the practical implementation of various fun
     }
     ```
 
-2. Additionally, create a `users.yaml` file with the following content:
+2. 또한 다음 내용으로 `users.yaml` 파일을 만듭니다:
 
     ```
     users:
@@ -29,7 +29,7 @@ In this exercise, we will delve into the practical implementation of various fun
       group: auditors
     ```
 
-3. Create an output that uses the `startswith` function to check if the `local.name` starts with a certain value. Which functions can we use to ensure the comparison is case-insensitive?
+3. `local.name`이 특정 값으로 시작하는지 확인하기 위해 `startswith` 함수를 사용하는 출력을 생성합니다. 대소문자를 구분하지 않고 비교하기 위해 어떤 함수를 사용할 수 있을까요?
 
     ```
     output "example1" {
@@ -37,7 +37,7 @@ In this exercise, we will delve into the practical implementation of various fun
     }
     ```
 
-4. Create another output block that calculates the square of `local.age` using the `pow` function.
+4. `pow` 함수를 사용하여 `local.age`의 제곱을 계산하는 또 다른 출력 블록을 만듭니다.
 
     ```
     output "example2" {
@@ -45,7 +45,7 @@ In this exercise, we will delve into the practical implementation of various fun
     }
     ```
 
-5. Create a third output block that uses the `yamldecode` function to decode the created YAML file named `users.yaml` within the module's path. Output a list containing only the `name` property of each object.
+5. `yamldecode` 함수를 사용하여 모듈 경로 내에 `users.yaml`이라는 이름의 생성된 YAML 파일을 디코딩하는 세 번째 출력 블록을 생성합니다. 각 객체의 `name` 속성만 포함된 목록을 출력합니다.
 
     ```
     output "example3" {
@@ -53,7 +53,7 @@ In this exercise, we will delve into the practical implementation of various fun
     }
     ```
 
-6. Finally, create a fourth output block that uses the `jsonencode` function to convert `local.my_object` into a JSON string.
+6. 마지막으로 `jsonencode` 함수를 사용하여 `local.my_object`를 JSON 문자열로 변환하는 네 번째 출력 블록을 생성합니다.
 
     ```
     output "example4" {
@@ -63,4 +63,4 @@ In this exercise, we will delve into the practical implementation of various fun
 
 ## Congratulations on Completing the Exercise!
 
-Well done on completing this exercise! You've gained practical experience with various Terraform functions, advancing your skills in manipulating and transforming data types. Keep up the good work!
+이 연습을 잘 마쳤습니다! 다양한 테라폼 함수에 대한 실무 경험을 쌓고 데이터 유형을 조작하고 변환하는 기술을 향상시켰습니다. 계속 열심히 하세요!

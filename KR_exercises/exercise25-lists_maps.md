@@ -1,24 +1,24 @@
-# Transforming Lists into Maps and Vice Versa
+# list를 map으로 또는 그 반대로 변환하기
 
 ## Introduction
 
-In this exercise, we will explore how to transform lists into maps and vice versa in Terraform. This knowledge will be crucial in managing complex data structures and efficiently retrieving and manipulating data. The exercise is broken down into detailed steps that walk you through the process of creating a `users` list variable, transforming this list into a `users_map`, and then transforming that map back into a list. By the end of the exercise, you should have a good understanding of how to work with lists and maps in Terraform.
+이 실습에서는 Terraform에서 list를 Map으로 변환하거나 그 반대로 변환하는 방법을 살펴보겠습니다. 이 지식은 복잡한 데이터 구조를 관리하고 데이터를 효율적으로 검색하고 조작하는 데 매우 중요합니다. 이 연습은 `users` 목록 변수를 만들고, 이 목록을 `users_map`으로 변환한 다음, 그 맵을 다시 목록으로 변환하는 과정을 안내하는 세부 단계로 나뉘어져 있습니다. 연습이 끝나면 Terraform에서 list와 Map으로 작업하는 방법을 잘 이해하게 될 것입니다.
 
 ## Desired Outcome
 
-If you wish to give it a shot before looking into the detailed step-by-step and the solution videos, here is an overview of what the created solution should deploy:
+자세한 단계별 내용과 솔루션 동영상을 살펴보기 전에 한 번 사용해 보고 싶다면 생성된 솔루션이 배포해야 하는 내용을 간략하게 살펴보세요:
 
-1. Create a `users` variable, which receives a list of objects, with each object containing a `username` and `role` properties.
-2. Create a `users_map` local, which transforms the `var.users` list into a map where the `username` property becomes the key in the map, and the `role` property becomes the value.
-    1. The `users_map` local should also handle duplicated usernames and return a list of roles whenever a username appears more than once in the `users` variable.
-3. Create a `users_map2` local, which transforms our `local.users_map` into a new map with the following structure: `<key> => { roles = <roles list> }`.
-4. Create a `user_to_output` variable, which receives a string used to retrieve a specific user’s information from our `users_map2` local.
-5. Create a `usernames_from_map` local, which transforms the `local.users_map` map into a list containing only the username of each map entry.
-6. Define outputs to visualize the information we have been processing so far.
+1. 각 객체에 `username`과 `role` 속성을 포함하는 객체 목록을 수신하는 `users` 변수를 만듭니다.
+2. `var.users` 목록을 맵으로 변환하여 `username` 속성이 맵의 키가 되고 `role` 속성이 값이 되는 `users_map` 로컬을 만듭니다.
+    1. 또한 `users_map` 로컬은 중복된 사용자 아이디를 처리하고 사용자 아이디가 `users` 변수에 두 번 이상 나타날 때마다 역할 목록을 반환해야 합니다.
+3. ` local.users_map`을 다음 구조의 새 맵으로 변환하는 `users_map2` 로컬을 만듭니다: `<key> => { roles = <roles list> }`.
+4. `users_map2` 로컬에서 특정 사용자의 정보를 검색하는 데 사용되는 문자열을 수신하는 `user_to_output` 변수를 만듭니다.
+5. `local.users_map` 맵을 각 맵 항목의 사용자 이름만 포함하는 목록으로 변환하는 `usernames_from_map` 로컬을 생성합니다.
+6. 지금까지 처리한 정보를 시각화하기 위해 output을 정의합니다.
 
 ## Step-by-Step Guide
 
-1. First, define a variable named `users`, which is of type list of objects, each object containing a `username` and `role` properties.
+1. 먼저 객체의 목록 유형인 `users`라는 변수를 정의하고, 각 객체에는 `username`과 `role` 속성이 포함됩니다.
 
     ```
     variable "users" {
@@ -29,7 +29,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-2. Now create a local `users_map`, which transforms the `var.users` list into a map where the `username` property becomes the key in the map, and the `role` property becomes the value. What happens when we have more than one entry in the list containing the same username?
+2. 이제 로컬 `users_map`을 생성하여 `var.users` 목록을 맵으로 변환하고 `username` 속성이 맵의 키가 되고 `role` 속성이 값이 되는 맵을 만듭니다. 목록에 동일한 사용자명이 포함된 항목이 두 개 이상 있으면 어떻게 될까요?
 
     ```
     locals {
@@ -39,7 +39,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-3. Having a duplicated key will throw an error. Use the ellipsis operator at the end of `user_info.role` to group together all the roles for a single `username` under the same map key.
+3. 중복된 키가 있으면 오류가 발생합니다. `user_info.role` 끝에 줄임표 연산자를 사용하여 동일한 맵 키 아래에 있는 단일 `username`에 대한 모든 역할을 그룹화합니다.
 
     ```
     locals {
@@ -49,7 +49,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-4. Now create a new local which transforms our `local.users_map` into a new map with the following structure: `<key> => { roles = <roles list> }`
+4. `<key> => { roles = <roles list> }`구조를 가진 새 맵으로 `local.users_map`을 변환하는 새 로컬을 만듭니다.
 
     ```
     locals {
@@ -61,7 +61,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-5. Create a variable `user_to_output`, which is of type string. This variable will be used to retrieve a specific user’s information from our `users_map2` local.
+5. 문자열 타입의 `user_to_output` 변수를 생성합니다. 이 변수는 `users_map2` 로컬에서 특정 사용자의 정보를 검색하는 데 사용됩니다.
 
     ```
     variable "user_to_output" {
@@ -69,7 +69,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-6. Define a couple of outputs that allow us to visualize the information we have been processing so far. Run a `terraform plan` to visualize the changes.
+6. 지금까지 처리한 정보를 시각화할 수 있는 몇 가지 출력을 정의합니다. `terraform plan`을 실행하여 변경 사항을 시각화합니다.
 
     ```
     output "users_map" {
@@ -85,7 +85,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-7. Last but not least, create a local that transforms the `local.users_map` map into a list containing only the username of each map entry. Create a new output to show the information and run a `terraform plan` to visualize the results.
+7. 마지막으로, `local.users_map` 맵을 각 맵 항목의 사용자 이름만 포함하는 목록으로 변환하는 로컬을 만듭니다. 정보를 표시할 새 출력을 만들고 `terraform plan`을 실행하여 결과를 시각화합니다.
 
     ```
     locals = {
@@ -100,4 +100,4 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
 
 ## Congratulations on Completing the Exercise!
 
-Great job on completing this challenging exercise! You've worked hard and learned how to transform lists into maps, and maps into lists in Terraform. This skill will be immensely beneficial in managing complex data structures and retrieving and manipulating data efficiently. Keep practicing and continue to expand your knowledge. Keep up the good work!
+이 어려운 연습을 완료해 주셔서 정말 수고하셨습니다! 열심히 노력하여 목록을 맵으로, 맵을 목록으로 변환하는 방법을 테라폼에서 배웠습니다. 이 기술은 복잡한 데이터 구조를 관리하고 데이터를 효율적으로 검색하고 조작하는 데 큰 도움이 될 것입니다. 계속 연습하여 지식을 계속 넓혀 나가세요. 계속 노력하세요!
