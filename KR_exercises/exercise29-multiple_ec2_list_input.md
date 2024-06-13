@@ -1,21 +1,21 @@
-# Creating EC2 Instances based on a List Variable
+# List 변수를 기반으로 EC2 인스턴스 생성하기
 
 ## Introduction
 
-In this exercise, we will learn how to create multiple EC2 instances in Terraform based on a list of configurations. We will define the desired EC2 instance properties such as instance type and AMI in a list variable and then use Terraform to create these instances. This exercise will provide you with practical experience in handling complex configurations and manipulating data sources and resources in Terraform.
+이 실습에서는 구성 목록을 기반으로 Terraform에서 여러 EC2 인스턴스를 생성하는 방법을 배웁니다. 인스턴스 유형 및 AMI와 같은 원하는 EC2 인스턴스 속성을 목록 변수에 정의한 다음 Terraform을 사용하여 이러한 인스턴스를 생성합니다. 이 실습을 통해 복잡한 구성을 처리하고 Terraform에서 데이터 소스 및 리소스를 조작하는 실무 경험을 쌓을 수 있습니다.
 
 ## Desired Outcome
 
-If you wish to give it a shot before looking into the detailed step-by-step and the solution videos, here is an overview of what the created solution should deploy:
+자세한 단계별 내용과 솔루션 동영상을 살펴보기 전에 한 번 사용해 보고 싶은 경우, 생성된 솔루션이 배포해야 하는 내용을 간략하게 살펴보세요:
 
-1. Create a list of EC2 instances based on a specified configuration list variable.
-2. The configuration list includes details such as the instance type and AMI.
-3. The AMI property should receive a user-friendly value, such as `"ubuntu"`, and retrieve the AMI ID based on a data source.
-4. The instances are distributed across different subnets.
+1. 지정된 구성 목록 변수를 기반으로 EC2 인스턴스 목록을 생성합니다.
+2. 구성 목록에는 인스턴스 유형 및 AMI와 같은 세부 정보가 포함됩니다.
+3. AMI 속성은 `"ubuntu"`와 같은 사용자 친화적인 값을 수신하고 데이터 소스를 기반으로 AMI ID를 검색해야 합니다.
+4. 인스턴스는 여러 서브넷에 분산되어 있습니다.
 
 ## Step-by-Step Guide
 
-1. Create a new variable `ec2_instance_config_list` under the file `variables.tf`. This variable is of type list, which contains objects with specific keys. The keys include `instance_type` and `ami`, both of type string. The default value for this variable is an empty list.
+1. `variables.tf` 파일 아래에 새 변수 `ec2_instance_config_list`를 생성합니다. 이 변수는 특정 키를 가진 객체를 포함하는 목록 유형입니다. 키는 모두 문자열 유형인 `instance_type` 및 `ami`를 포함합니다. 이 변수의 기본값은 빈 목록입니다.
 
     ```
     variable "ec2_instance_config_list" {
@@ -28,7 +28,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-2. Add an entry for the variable in the `terraform.tfvars` file. The list should contain one object with the `instance_type` set to `"t2.micro"` (or whatever type falls under your free tier), and the `ami` set to `"ubuntu"`. Also make sure to set the `ec2_instance_count` variable to `0` so that we do not create any additional ec2 instances.
+2. `terraform.tfvars` 파일에 변수에 대한 항목을 추가합니다. 목록에는 `instance_type`이 `"t2.micro"`(또는 무료 티어에 해당하는 유형)로 설정되고 `ami`가 `"ubuntu"`로 설정된 객체 하나가 포함되어야 합니다. 또한 추가 ec2 인스턴스가 생성되지 않도록 `ec2_instance_count` 변수를 `0`으로 설정해야 합니다.
 
     ```
     ec2_instance_config_list = [
@@ -39,7 +39,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     ]
     ```
 
-3. In the `compute.tf` file, add a new resource `aws_instance.from_list` which iterates over the list by using a `count = length(var.ec2_instance_config_list)` meta-argument. Retrieve the information from the configuration object. How can we use the `ubuntu` value to get the AMI ID? (Hint: Try to use a local map to store the AMI ID coming from the data source).
+3. `compute.tf` 파일에서 `count = length(var.ec2_instance_config_list)` 메타 인수를 사용하여 목록을 반복하는 새 리소스 `aws_instance.from_list`를 추가합니다. 구성 개체에서 정보를 검색합니다. `ubuntu` 값을 사용하여 AMI ID를 가져오려면 어떻게 해야 하나요? (힌트: 로컬 맵을 사용하여 데이터 소스에서 오는 AMI ID를 저장하세요).
 
     ```
     locals {
@@ -78,8 +78,8 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-4. Run a `terraform plan` and inspect the proposed changes.
+4. `terraform plan`을 실행하고 제안된 변경 사항을 검사합니다.
 
 ## Congratulations on Completing the Exercise!
 
-Well done on completing this exercise! You've successfully learned how to create multiple EC2 instances based on a list in Terraform. This is a significant step forward in managing complex configurations and manipulating data sources and resources in Terraform. Keep up the good work!
+이 연습을 완료했습니다! 이제 Terraform에서 목록을 기반으로 여러 EC2 인스턴스를 생성하는 방법을 성공적으로 배웠습니다. 이는 Terraform에서 복잡한 구성을 관리하고 데이터 소스 및 리소스를 조작하는 데 있어 중요한 진전입니다. 계속 열심히 하세요!

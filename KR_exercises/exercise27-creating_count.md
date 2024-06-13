@@ -1,21 +1,21 @@
-# Creating Multiple Subnets with the `count` Argument
+# `count` 인수를 사용하여 여러 서브넷 만들기
 
 ## Introduction
 
-In this exercise, we'll delve into the creation of multiple subnets using the `count` argument in Terraform. This exercise is designed to help you understand how to efficiently manage resources in Terraform and avoid code duplication. You'll learn how to define a local variable, create a Virtual Private Cloud (VPC), and use the `count` meta-argument to create multiple subnets. You'll also learn how to use the `tags` attribute to assign unique names to the subnets using the `count.index` value and make the count of subnets configurable by creating a new `subnet_count` variable. This exercise will provide a step-by-step guide on how to achieve these tasks.
+이 연습에서는 Terraform에서 `count` 인수를 사용하여 여러 서브넷을 생성하는 방법을 살펴봅니다. 이 연습은 Terraform에서 리소스를 효율적으로 관리하고 코드 중복을 피하는 방법을 이해하는 데 도움이 되도록 설계되었습니다. 로컬 변수를 정의하고, 가상 프라이빗 클라우드(VPC)를 생성하고, `count` 메타 인수를 사용하여 여러 서브넷을 생성하는 방법을 배우게 됩니다. 또한 `tags` 속성을 사용하여 `count.index` 값을 사용하여 서브넷에 고유 이름을 할당하는 방법과 새로운 `subnet_count` 변수를 생성하여 서브넷 수를 구성할 수 있게 만드는 방법도 배우게 됩니다. 이 연습에서는 이러한 작업을 수행하는 방법에 대한 단계별 가이드를 제공합니다.
 
 ## Desired Outcome
 
-If you wish to give it a shot before looking into the detailed step-by-step and the solution videos, here is an overview of what the created solution should deploy:
+자세한 단계별 내용과 솔루션 동영상을 살펴보기 전에 한 번 사용해 보고 싶다면 생성된 솔루션이 배포해야 하는 내용을 간략하게 살펴보세요:
 
-1. Create a Virtual Private Cloud (VPC) with a CIDR block set to `10.0.0.0/16`. The VPC is tagged with the `Project` and `Name` tags that hold the value of a newly created `local.project` local variable.
-2. Leverage the `count` meta-argument to create multiple subnets, reducing code duplication and making extension easier.
-3. Assign unique names to the subnets using the `count.index` value and the `tags` attribute.
-4. Create a new variable `subnet_count` to replace the hard-coded count value in the `aws_subnet` resource, thereby making the count of subnets configurable.
+1. CIDR 블록이 `10.0.0.0/16`으로 설정된 가상 프라이빗 클라우드(VPC)를 생성합니다. VPC에는 새로 생성된 `local.project` 로컬 변수의 값을 담고 있는 `Project` 및 `Name` 태그가 지정됩니다.
+2. `count` 메타 인수를 활용하여 여러 개의 서브넷을 생성하면 코드 중복을 줄이고 확장을 더 쉽게 할 수 있습니다.
+3. `count.index` 값과 `tags` 속성을 사용하여 서브넷에 고유한 이름을 할당합니다.
+4. 서브넷 개수를 구성할 수 있도록 `aws_subnet` 리소스에 하드코딩된 개수 값을 대체하는 새 변수 `subnet_count`를 생성합니다.
 
 ## Step-by-Step Guide
 
-1. Create a new `networking.tf` file, and define a local variable to store the `project` we are working on. This will help to keep your code neat and reusable. For this exercise, we have a project variable with the value `11-multiple-resources`.
+1. 새 `networking.tf` 파일을 만들고, 작업 중인 `project`를 저장할 로컬 변수를 정의합니다. 이렇게 하면 코드를 깔끔하고 재사용 가능하게 유지하는 데 도움이 됩니다. 이 연습에서는 `11-multiple-resources` 값을 가진 프로젝트 변수가 있습니다.
 
     ```
     locals {
@@ -23,7 +23,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-2. Create a Virtual Private Cloud (VPC) by defining a resource of type `aws_vpc`, and set the CIDR block to `10.0.0.0/16`. Add two tags, `Project` and `Name`, that hold the value stored in the `local.project` local variable.
+2. `aws_vpc` 유형의 리소스를 정의하여 가상 프라이빗 클라우드(VPC)를 생성하고 CIDR 블록을 `10.0.0.0/16`으로 설정합니다. `local.project` 로컬 변수에 저장된 값을 저장하는 두 개의 태그, `Project`와 `Name`을 추가합니다.
 
     ```
     resource "aws_vpc" "main" {
@@ -36,7 +36,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-3. Create two subnets by adding two `aws_subnet` resources.
+3. 두 개의 `aws_subnet` 리소스를 추가하여 두 개의 서브넷을 생성합니다.
 
     ```
     resource "aws_subnet" "subnet1" {
@@ -60,7 +60,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-4. While this works, it has a lot of duplication, and it’s not easy to extend. Let’s try to use the `count` meta-argument to create multiple subnets. Remove the subnet2 entry, and change the subnet1 to include a `count = 2` meta-argument. Rename the resource to `aws_subnet.main` instead of `aws_subnet.subnet1`.
+4. 이 방법은 작동하지만 중복이 많고 확장하기가 쉽지 않습니다. `count` 메타 인수를 사용하여 여러 서브넷을 생성해 보겠습니다. subnet2 항목을 제거하고 subnet1에 `count = 2` 메타 인수를 포함하도록 변경합니다. 리소스 이름을 `aws_subnet.subnet1` 대신 `aws_subnet.main`으로 변경합니다.
 
     ```
     resource "aws_subnet" "main" {
@@ -76,8 +76,8 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
 
     ```
 
-5. Try to apply this configuration. Does it work? Which error do we get back?
-6. For the subnets to be successfully created, we must ensure that the CIDR blocks are not overlapping with each other. We can leverage the `count.index` value that becomes available whenever we use the `count` meta-argument. Update the `cidr_block` of the subnet to `"10.0.${count.index}.0/24"`, where `${count.index}` is the index of the current iteration, allowing for a unique CIDR block for each subnet. The `tags` attribute is used to assign names to the subnets, and you can also leverage `count.index` there to uniquely identify each subnet.
+5. 이 구성을 적용해 보세요. 작동하나요? 어떤 오류가 발생하나요?
+6. 서브넷을 성공적으로 생성하려면 CIDR 블록이 서로 겹치지 않는지 확인해야 합니다. `count` 메타 인수를 사용할 때마다 사용할 수 있는 `count.index` 값을 활용할 수 있습니다. 서브넷의 `cidr_block`을 `"10.0.${count.index}.0/24"`로 업데이트합니다. 여기서 `${count.index}`는 현재 반복의 인덱스이므로 각 서브넷에 고유한 CIDR 블록을 사용할 수 있습니다. `tags` 속성은 서브넷에 이름을 할당하는 데 사용되며, `count.index`를 활용하여 각 서브넷을 고유하게 식별할 수도 있습니다.
 
     ```
     resource "aws_subnet" "main" {
@@ -92,7 +92,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-7. Last but not least, create a new variable `subnet_count` and migrate away from the hard-coded count value in the `aws_subnet` resource.
+7. 마지막으로, `subnet_count` 변수를 새로 생성하고 `aws_subnet` 리소스에서 하드코딩된 카운트 값에서 마이그레이션합니다.
 
     ```
     variable "subnet_count" {
@@ -114,4 +114,4 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
 
 ## Congratulations on Completing the Exercise!
 
-Great job on completing this exercise! You've taken a significant step in mastering Terraform by learning how to create multiple resources using the `count` argument. Your understanding of how to efficiently manage resources and avoid code duplication has improved. Keep up the good work!
+이 연습을 완료해 주셔서 감사합니다! `count` 인수를 사용하여 여러 리소스를 생성하는 방법을 배움으로써 테라폼을 마스터하는 데 중요한 한 걸음을 내디뎠습니다. 리소스를 효율적으로 관리하고 코드 중복을 피하는 방법에 대한 이해도가 향상되었습니다. 계속 열심히 공부하세요!
