@@ -1,6 +1,6 @@
-# Managing IAM Users and Roles with Terraform
+# Terraform으로 IAM 사용자 및 역할 관리하기
 
-This project is centered around managing AWS Identity and Access Management (IAM) users and roles using Terraform and YAML. The primary objective is to automate the process of creating users, assigning roles, and ensuring secure role assignment. User information, including usernames and roles, will be stored in a YAML file, while role information will be managed in Terraform. An important aspect of this project is to ensure that roles can only be assumed by the users assigned to them, adding an extra layer of security.
+이 프로젝트는 Terraform과 YAML을 사용해 AWS ID 및 액세스 관리(IAM) 사용자 및 역할을 관리하는 데 중점을 두고 있습니다. 주요 목표는 사용자를 생성하고, 역할을 할당하고, 안전한 역할 할당을 보장하는 프로세스를 자동화하는 것입니다. 사용자 이름과 역할을 포함한 사용자 정보는 YAML 파일에 저장되며, 역할 정보는 Terraform에서 관리됩니다. 이 프로젝트의 중요한 측면은 역할이 할당된 사용자만 역할을 맡을 수 있도록 하여 보안을 한층 더 강화하는 것입니다.
 
 ## Project Overview
 
@@ -8,14 +8,14 @@ This project is centered around managing AWS Identity and Access Management (IAM
 
 ## Desired Outcome
 
-1. Store user information (username and their respective roles) in a YAML file.
-2. Store role information (role name and their respective policies) in Terraform.
-    1. **Hint:** You can use AWS-Managed policies to make your life easier, but if you wish an extra layer of learning and challenge, by all means go ahead and create your own policies!
-3. Based on the provided YAML file, create users in the AWS account.
-4. Also make sure to create login profiles for the users, so that they can login into the AWS console.
-    1. **Hint:** Setting up the necessary elements to send passwords securely via email can be quite cumbersone. Although you should **never do that in real-life, production projects**, for our purposes here free to output this information from Terraform.
-5. Based on the role information stored in Terraform, create the respective roles and attach the correct policies to these roles.
-6. Based on the YAML file, link created users to the respective roles they can assume.
-7. Ensure that roles can only be assumed by the users that are assigned to those roles.
-8. Test everything in the AWS console, it's quite fun!
-9. Make sure to delete all the resources at the end of the project!
+1. 사용자 정보(사용자 이름 및 해당 역할)를 YAML 파일에 저장합니다.
+2. 역할 정보(역할 이름 및 해당 정책)를 Terraform에 저장합니다.
+    1. **Hint:** AWS 관리형 정책을 사용하면 더 쉽게 사용할 수 있지만, 더 많은 학습과 도전을 원하신다면 직접 정책을 생성해 보세요!
+3. 제공된 YAML 파일을 기반으로 AWS 계정에 사용자를 생성합니다.
+4. 또한 사용자가 AWS 콘솔에 로그인할 수 있도록 사용자에 대한 로그인 프로필을 생성합니다.
+    1. **Hint:** 이메일을 통해 비밀번호를 안전하게 전송하기 위해 필요한 요소를 설정하는 것은 상당히 번거로울 수 있습니다. **실제 프로덕션 프로젝트에서는 절대 그렇게 해서는 안 되지만**, 여기서는 테라폼에서 이 정보를 자유롭게 출력할 수 있습니다.
+5. 테라폼에 저장된 역할 정보를 기반으로 각 역할을 생성하고 해당 역할에 올바른 정책을 첨부합니다.
+6. YAML 파일을 기반으로 생성된 사용자를 해당 사용자가 맡을 수 있는 각 역할에 연결합니다.
+7. 해당 역할에 할당된 사용자만 역할을 맡을 수 있는지 확인합니다.
+8. AWS 콘솔에서 모든 것을 테스트해 보세요!
+9. 프로젝트가 끝나면 모든 리소스를 삭제하세요!
