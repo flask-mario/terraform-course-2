@@ -1,21 +1,21 @@
-# Using the AWS EC2 Module
+# AWS EC2 모듈 사용
 
 ## Introduction
 
-In this exercise, we will learn how to use the AWS EC2 Module in Terraform. We will refactor some of the VPC module information, introduce additional locals, and utilize the `data` block to get information about the most recent Ubuntu 22.04 Amazon Machine Image (AMI). We will then create an Amazon EC2 instance using the `terraform-aws-modules/ec2-instance/aws` module from the Terraform Registry. This exercise provides an excellent opportunity to get hands-on experience with the AWS EC2 module and understand its functionality in a real-world scenario.
+이 실습에서는 Terraform에서 AWS EC2 모듈을 사용하는 방법을 배워보겠습니다. 일부 VPC 모듈 정보를 리팩터링하고, 추가 로컬을 도입하고, `data` 블록을 활용하여 최신 Ubuntu 22.04 AMI(Amazon Machine Image)에 대한 정보를 얻습니다. 그런 다음 Terraform 레지스트리의 `terraform-aws-modules/ec2-instance/aws` 모듈을 사용하여 Amazon EC2 인스턴스를 생성합니다. 이 실습은 AWS EC2 모듈을 직접 경험하고 실제 시나리오에서 그 기능을 이해할 수 있는 좋은 기회를 제공합니다.
 
 ## Desired Outcome
 
-If you wish to give it a shot before looking into the detailed step-by-step and the solution videos, here is an overview of what the created solution should deploy:
+자세한 단계별 내용과 솔루션 동영상을 살펴보기 전에 한 번 사용해 보고 싶은 경우, 생성된 솔루션이 배포해야 하는 내용을 간략하게 살펴보세요:
 
-1. Refactor the VPC module information to extract it to local blocks.
-2. Create additional `project_name` and `common_tags` locals in a shared file, to be used by other resources.
-3. Use the `data` block to get information about the most recent Ubuntu 22.04 Amazon Machine Image (AMI).
-4. Create an Amazon EC2 instance using the `terraform-aws-modules/ec2-instance/aws` module from the Terraform Registry. This includes specifying the name, AMI, instance type, security group, and subnet for the instance. Make sure to leverage the VPC module we have created in the previous exercise.
+1. VPC 모듈 정보를 리팩터링하여 로컬 블록으로 추출합니다.
+2. 다른 리소스에서 사용할 수 있도록 공유 파일에 `project_name` 및 `common_tags` 로컬을 추가로 생성합니다.
+3. `data` 블록을 사용하여 최신 Ubuntu 22.04 AMI(Amazon 머신 이미지)에 대한 정보를 가져옵니다.
+4. 테라폼 레지스트리에서 `terraform-aws-modules/ec2-instance/aws` 모듈을 사용하여 Amazon EC2 인스턴스를 생성합니다. 여기에는 인스턴스의 이름, AMI, 인스턴스 유형, 보안 그룹, 서브넷을 지정하는 것이 포함됩니다. 이전 연습에서 생성한 VPC 모듈을 활용해야 합니다.
 
 ## Step-by-Step Guide
 
-1. Refactor the VPC module implementation to extract the VPC CIDR, public and private subnets, and the VPC name into their own locals. Place the VPC name in a `project_name` local in a shared file, since it will also be used by other resources.
+1. VPC 모듈 구현을 리팩터링하여 VPC CIDR, 공용 및 사설 서브넷, VPC 이름을 자체 로컬로 추출합니다. VPC 이름은 다른 리소스에서도 사용되므로 공유 파일의 `project_name` 로컬에 배치합니다.
 
     ```
     # shared_data.tf
@@ -48,7 +48,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-2. Create a `common_tags` local in the shared file, and pass it to the existing VPC module.
+2. 공유 파일에 `common_tags` 로컬을 생성하고 기존 VPC 모듈에 전달합니다.
 
     ```
     locals {
@@ -60,7 +60,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-3. In the `compute.tf` file, declare a `locals` block containing the `instance_type` variable. This variable defines the type of Amazon EC2 instance that you want to launch.
+3. `compute.tf` 파일에서 `instance_type` 변수가 포함된 `locals` 블록을 선언합니다. 이 변수는 시작하려는 Amazon EC2 인스턴스의 유형을 정의합니다.
 
     ```
     locals {
@@ -68,7 +68,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-4. Use the `data` block to get information about the most recent Ubuntu 22.04 Amazon Machine Image (AMI). The `owners` argument specifies the AWS account ID of the image owner. The `filter` arguments specify the name and virtualization type of the AMI.
+4. `data` 블록을 사용하여 최신 Ubuntu 22.04 AMI(Amazon 머신 이미지)에 대한 정보를 가져옵니다. `owners` 인수는 이미지 소유자의 AWS 계정 ID를 지정합니다. `filter` 인수는 AMI의 이름과 가상화 유형을 지정합니다.
 
     ```
     data "aws_ami" "ubuntu" {
@@ -88,7 +88,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
 
     ```
 
-5. Use the `module` block to create an Amazon EC2 instance using the `terraform-aws-modules/ec2-instance/aws` module from the Terraform Registry. Specify the name, AMI, instance type, security group, and subnet for the instance based on the information from above, as well as from the VPC module that was created in the previous exercise. Use the default security group ID from the VPC module. Also, add your common tags to the instance.
+5. `module` 블록을 사용하여 Terraform 레지스트리의 `terraform-aws-modules/ec2-instance/aws` 모듈을 사용하여 Amazon EC2 인스턴스를 생성합니다. 위의 정보와 이전 연습에서 생성한 VPC 모듈을 기반으로 인스턴스의 이름, AMI, 인스턴스 유형, 보안 그룹 및 서브넷을 지정합니다. VPC 모듈의 기본 보안 그룹 ID를 사용합니다. 또한 인스턴스에 공통 태그를 추가합니다.
 
     ```
     module "ec2" {
@@ -105,8 +105,8 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-6. Make sure to destroy the infrastructure at the end of the exercise!
+6. 연습이 끝나면 반드시 인프라를 destroy하세요!
 
 ## Congratulations on Completing the Exercise!
 
-Congratulations on successfully completing this exercise! You've done an excellent job in learning how to use the AWS EC2 Module in Terraform. You've not only grasped the concepts but have also applied them hands-on. Keep up the good work!
+이 연습을 성공적으로 완료한 것을 축하드립니다! Terraform에서 AWS EC2 모듈을 사용하는 방법을 훌륭하게 학습하셨습니다. 개념을 이해했을 뿐만 아니라 실제로 적용해 보았습니다. 앞으로도 계속 잘 부탁드립니다!
