@@ -1,20 +1,20 @@
-# Validating the Availability Zones
+# 가용 영역 확인
 
 ## Introduction
 
-In this exercise, we'll be focusing our attention on validating the Availability Zones (AZs) in the VPC module we are implementing. By validating the AZs, we're able to ensure that we're utilizing the appropriate and available zones for our project. The exercise involves creating a data source to retrieve available AZs, adding a precondition lifecycle block to an AWS subnet resource, and crafting a user-friendly error message for invalid AZs.
+이 연습에서는 구현 중인 VPC 모듈의 가용 영역(AZ)을 검증하는 데 중점을 두겠습니다. AZ를 검증함으로써 프로젝트에 적절하고 사용 가능한 영역을 활용하고 있는지 확인할 수 있습니다. 이 연습에서는 사용 가능한 AZ를 검색하기 위한 데이터 소스를 만들고, AWS 서브넷 리소스에 전제 조건 수명 주기 블록을 추가하고, 잘못된 AZ에 대한 사용자 친화적인 오류 메시지를 작성하는 과정을 포함합니다.
 
 ## Desired Outcome
 
-If you wish to give it a shot before looking into the detailed step-by-step and the solution videos, here is an overview of what the created solution should deploy:
+자세한 단계별 내용과 솔루션 동영상을 살펴보기 전에 한 번 사용해 보고 싶다면 생성된 솔루션이 배포해야 하는 내용을 간략하게 살펴보세요:
 
-1. Create a data source `aws_availability_zones.available`, which retrieves only the available Availability Zones (AZs) within the relevant region for our project.
-2. Add a `precondition` lifecycle block to the `aws_subnet.this` resource. This precondition check should ensure that the provided availability zone is included in the retrieved AZs from the data source created in the first step.
-3. Provide a user-friendly error message to inform the user in case an invalid availability zone is provided.
+1. 프로젝트의 해당 지역 내에서 사용 가능한 가용 영역(AZ)만 검색하는 데이터 소스 `aws_availability_zones.available`을 생성합니다.
+2. `aw_subnet.this` 리소스에 `pre-condition` 라이프사이클 블록을 추가합니다. 이 전제 조건 확인은 제공된 가용 영역이 첫 번째 단계에서 생성된 데이터 소스에서 검색된 AZ에 포함되어 있는지 확인해야 합니다.
+3. 잘못된 가용 영역이 제공된 경우 사용자에게 알리기 위한 사용자 친화적인 오류 메시지를 제공합니다.
 
 ## Step-by-Step Guide
 
-1. Create a data source `aws_availability_zones.available`, which retrieves only the available AZs within the relevant region for our project.
+1. 프로젝트의 해당 지역 내에서 사용 가능한 AZ만 검색하는 데이터 소스 `aws_availability_zones.available`을 만듭니다.
 
     ```
     data "aws_availability_zones" "available" {
@@ -22,7 +22,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-2. Add a `precondition` lifecycle block to the `aws_subnet.this` resource. In this precondition check, make sure that the provided availability zone is included in the retrieved AZs from the data source created in the previous step.
+2. `aw_subnet.this` 리소스에 `pre-condition` 수명 주기 블록을 추가합니다. 이 전제 조건 확인에서는 제공된 가용성 영역이 이전 단계에서 생성한 데이터 소스에서 검색된 AZ에 포함되어 있는지 확인합니다.
 
     ```
     resource "aws_subnet" "this" {
@@ -44,7 +44,7 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-3. Write a user-friendly error message to inform the user in case an invalid availability zone is provided. Interpolate relevant values to the error message to make sure the user gets as much information as possible.
+3. 잘못된 가용 영역이 제공된 경우 사용자에게 알릴 수 있는 사용자 친화적인 오류 메시지를 작성합니다. 오류 메시지에 관련 값을 보간하여 사용자가 최대한 많은 정보를 얻을 수 있도록 하세요.
 
     ```
     resource "aws_subnet" "this" {
@@ -71,8 +71,8 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-4. Make sure to destroy the resources after you complete all the steps!
+4. 모든 단계를 완료한 후에는 리소스를 반드시 파기하세요!
 
 ## Congratulations on Completing the Exercise!
 
-Well done on completing this exercise! You've taken an important step in understanding how to validate Availability Zones in an AWS infrastructure. Remember, this knowledge is vital in managing and maintaining a resilient and reliable cloud-based system. In the upcoming exercises, we'll continue to implement the module. Keep up the good work!
+이 연습을 완료하셨습니다! AWS 인프라에서 가용 영역의 유효성을 검사하는 방법을 이해하는 데 중요한 단계를 밟으셨습니다. 이 지식은 탄력적이고 안정적인 클라우드 기반 시스템을 관리하고 유지 관리하는 데 매우 중요합니다. 다음 연습에서는 모듈을 계속 구현해 보겠습니다. 계속 노력하세요!
