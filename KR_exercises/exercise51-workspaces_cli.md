@@ -1,16 +1,16 @@
-# Creating Workspaces in the Terraform CLI
+# Terraform CLI에서 워크스페이스 만들기
 
 ## Introduction
 
-In this exercise, we will delve into the creation of workspaces in the Terraform Command Line Interface (CLI). We will walk through the process step by step, from setting up the initial configuration to creating an S3 bucket for demonstration purposes, and finally, creating a new workspace. This exercise will equip you with the practical knowledge to utilize workspaces effectively in your own projects.
+이 실습에서는 Terraform CLI(명령줄 인터페이스)에서 작업 공간을 만드는 방법을 자세히 살펴보겠습니다. 초기 구성 설정부터 데모용 S3 버킷 생성, 마지막으로 새 워크스페이스 생성까지 프로세스를 단계별로 안내해 드립니다. 이 실습을 통해 자신의 프로젝트에서 워크스페이스를 효과적으로 활용할 수 있는 실용적인 지식을 갖추게 될 것입니다.
 
 ## Step-by-Step Guide
 
-1. Create a new folder to place the files of this section. Configure the Terraform required version and required providers, as well as the AWS provider region.
-2. Run `terraform workspace -help`, and have a look through the documentation around CLI workspaces.
-3. Run `terraform workspace show` and inspect which workspace we are working with.
-4. Run `terraform workspace list` to list all the available workspaces.
-5. Create a new S3 bucket for demonstration purposes. Include a random ID at the end of the bucket name. Confirm the changes with `terraform apply`.
+1. 이 섹션의 파일을 저장할 새 폴더를 만듭니다. Terraform 필수 버전과 필수 공급자, 그리고 AWS 공급자 리전을 구성합니다.
+2. `terraform workspace -help`를 실행하고 CLI 작업 공간에 대한 설명서를 살펴봅니다.
+3. `terraform workspace show`를 실행하여 작업 중인 워크스페이스를 확인합니다.
+4. 사용 가능한 모든 워크스페이스를 나열하려면 `terraform workspace list`을 실행합니다.
+5. 데모용으로 새 S3 버킷을 생성합니다. 버킷 이름 끝에 임의의 ID를 포함하세요. `terraform apply`로 변경 사항을 확인합니다.
 
     ```
     resource "random_id" "bucket_suffix" {
@@ -23,10 +23,10 @@ In this exercise, we will delve into the creation of workspaces in the Terraform
     }
     ```
 
-6. Create a new workspace with `terraform workspace new dev`.
-7. Run `terraform apply` and check what will happen.
-8. Make sure to destroy the infrastructure before finishing the exercise!
+6. `terraform workspace new dev`로 새 워크스페이스를 생성합니다.
+7. `terraform apply`를 실행하고 어떤 일이 발생하는지 확인합니다.
+8. 연습을 마치기 전에 인프라를 파괴하세요!
 
 ## Congratulations on Completing the Exercise!
 
-Fantastic job on completing this exercise! You've taken key steps in understanding how to create and manage workspaces in the Terraform CLI. Keep up the great work!
+이 연습을 완료해 주셔서 정말 수고하셨습니다! Terraform CLI에서 워크스페이스를 만들고 관리하는 방법을 이해하는 데 중요한 단계를 밟으셨습니다. 앞으로도 계속 열심히 하세요!
