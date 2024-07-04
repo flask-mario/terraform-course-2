@@ -2,24 +2,26 @@
 
 ## Introduction
 
-In this exercise, we will be exploring the process of refactoring configuration with the help of the Command Line Interface (CLI) and moved blocks. We will be working with the manipulation of Terraform state and EC2 instances. The main goal of this exercise is to familiarize you with operations such as renaming instances, migrating blocks, and using the `moved` block. By the end of this exercise, you should have a good understanding of how to make efficient changes to your infrastructure without unnecessary resource recreation.
+이 실습에서는 명령줄 인터페이스(CLI)와 이동된 블록을 사용하여 구성을 리팩토링하는 과정을 살펴보겠습니다. Terraform 상태와 EC2 인스턴스를 조작하는 작업을 할 것입니다. 이 연습의 주요 목표는 인스턴스 이름 바꾸기, 블록 마이그레이션, `moved` 블록 사용과 같은 작업에 익숙해지는 것입니다. 이 연습이 끝나면 불필요한 리소스 재생성 없이 인프라를 효율적으로 변경하는 방법을 잘 이해할 수 있을 것입니다.
 
 ## Desired Outcome
 
-If you wish to give it a shot before looking into the detailed step-by-step and the solution videos, here is an overview of what the created solution should execute:
+자세한 단계별 내용과 솔루션 동영상을 살펴보기 전에 한 번 실행해보고 싶다면, 생성된 솔루션이 실행해야 하는 내용을 간략하게 살펴보세요:
 
-1. Create a new folder for the following exercises.
-2. Create a new EC2 instance labeled `default`.
-3. Use the `terraform state mv` command to relabel the EC2 instance to `new`.
-4. Migrate the `aws_instance` block to deploy two instances using the `count = 2` meta-argument, and migrate the existing instance to the first item on the new instance list.
-5. Migrate to using `for_each` instead of count, and use a local variable to define two strings that are to be used as the identifiers for the instances.
-6. Use the `moved` block instead of the CLI to move the two resources from our list to the newly defined EC2 resources.
+1. 다음 연습을 위해 새 폴더를 생성하세요.
+2. `default`로 레이블된 새 EC2 인스턴스를 생성하세요.
+3. `terraform state mv` 명령을 사용하여 EC2 인스턴스의 레이블을 `new`로 변경하세요.
+4. `count = 2` 메타-인자를 사용하여 `aws_instance` 블록을 이용해 두 개의 인스턴스를 배포하고, 기존 인스턴스를 새 인스턴스 리스트의 첫 번째 항목으로 이동하세요.
+5. `count` 대신 `for_each`를 사용하고, 로컬 변수를 사용하여 인스턴스의 식별자로 사용할 두 개의 문자열을 정의하세요.
+6. CLI 대신 `moved` 블록을 사용하여 목록에서 두 개의 리소스를 새로 정의된 EC2 리소스로 이동하세요.
 
 ## Step-by-Step Guide
 
-1. Create a new folder to organize the files related to the state manipulation section.
-2. Create a new `provider.tf` file and configure Terraform as we have been doing so far. Add the AWS provider, following the same version constraints as in previous exercises. Also configure the AWS provider with the region of your choice.
-3. To understand the motivation for refactoring configuration, create a new EC2 instance in the project. Run `terraform apply` to create the new instance.
+
+1. 상태 조작 섹션과 관련된 파일을 정리하기 위해 새 폴더를 생성하세요.
+2. 새로운 `provider.tf` 파일을 생성하고 Terraform을 이전 연습과 동일한 버전 제약 조건으로 구성하세요. 또한 원하는 지역으로 AWS 프로바이더를 구성하세요.
+3. 구성 리팩토링 동기를 이해하기 위해 프로젝트에 새로운 EC2 인스턴스를 생성하세요. `terraform apply`를 실행하여 새 인스턴스를 생성하세요.
+
 
     ```
     data "aws_ami" "ubuntu" {
@@ -39,16 +41,18 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
 
     resource "aws_instance" "default" {
       ami           = data.aws_ami.ubuntu.id
-      instance_type = "t2.micro"
+      instance_type = "t3.micro"
     }
     ```
 
-4. Change the `aws_instance` label from default to `new`. Run `terraform apply` and inspect what happens. Is it really necessary to recreate resources? Cancel the operation and proceed to the next step.
-5. Use the `terraform state mv -dry-run [OLD-REFERENCE] [NEW-REFERENCE]` to visualize the operation that we can perform to rename our resource in the Terraform state. Run the command again without the `-dry-run` option, and then run `terraform apply`. There should be no changes to the infrastructure.
-6. Let’s now deploy two instances. Add a `count = 2` meta-argument to the `aws_instance` block. Run `terraform apply`. How did Terraform handle this operation?
-7. Although Terraform can handle simple migrations from single to multiple resources with the count meta-argument, if we relabel the resource we will still run into problems. Try changing the label to `new_list` and then run `terraform apply`. Terraform should want to perform more operations than necessary.
-8. Use the `terraform state mv aws_instance.new 'aws_instance.new_list[0]'` command to move our existing instance to the first element of the new list. Running `terraform apply` should now lead only to the creation of a single instance.
-9. Let’s now migrate to using `for_each` instead of count. Store two strings in a local named `ec2_names`, and migrate the EC2 instance code to create instances based on those names.
+
+4. `aws_instance` 레이블을 `default`에서 `new`로 변경하세요. `terraform apply`를 실행하고 결과를 확인하세요. 리소스를 다시 생성해야 할 필요가 있을까요? 작업을 취소하고 다음 단계로 진행하세요.
+5. `terraform state mv -dry-run [OLD-REFERENCE] [NEW-REFERENCE]`를 사용하여 Terraform 상태에서 리소스 이름을 변경하는 작업을 시각화하세요. `-dry-run` 옵션 없이 명령을 다시 실행한 다음 `terraform apply`를 실행하세요. 인프라에 변경 사항이 없어야 합니다.
+6. 이제 두 개의 인스턴스를 배포해 봅시다. `aws_instance` 블록에 `count = 2` 메타-인자를 추가하세요. `terraform apply`를 실행하세요. Terraform은 이 작업을 어떻게 처리했나요?
+7. Terraform은 count 메타-인자를 사용하여 단일 리소스에서 다중 리소스로 간단한 마이그레이션을 처리할 수 있지만, 리소스의 레이블을 변경하면 여전히 문제가 발생합니다. 레이블을 `new_list`로 변경한 다음 `terraform apply`를 실행하세요. Terraform은 필요 이상의 작업을 수행하려고 할 것입니다.
+8. `terraform state mv aws_instance.new 'aws_instance.new_list[0]'` 명령을 사용하여 기존 인스턴스를 새 목록의 첫 번째 요소로 이동하세요. `terraform apply`를 실행하면 이제 하나의 인스턴스만 생성됩니다.
+9. 이제 count 대신 `for_each`를 사용하도록 마이그레이션해 봅시다. `ec2_names`라는 로컬 변수에 두 개의 문자열을 저장하고, EC2 인스턴스 코드를 해당 이름을 기반으로 인스턴스를 생성하도록 마이그레이션하세요.
+
 
     ```
     locals {
@@ -62,7 +66,8 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-10. Which CLI commands should we run? Instead of using the CLI, let’s now adopt a different approach and use the `moved` block. Move the two resources from our list to the newly defined resources.
+10. 어떤 CLI 명령을 실행해야 할까요? CLI 대신 다른 방법을 채택하여 `moved` 블록을 사용해 봅시다. 목록에서 두 개의 리소스를 새로 정의된 리소스로 이동하세요.
+
 
     ```
     moved {
@@ -76,9 +81,11 @@ If you wish to give it a shot before looking into the detailed step-by-step and 
     }
     ```
 
-11. Run `terraform plan` and inspect what Terraform outputs. Confirm the operation by running `terraform apply` and typing “yes”.
-12. Make sure to destroy the infrastructure before finishing the exercise!
+
+11. `terraform plan`을 실행하고 Terraform이 출력하는 내용을 확인하세요. 작업을 확인하기 위해 `terraform apply`를 실행하고 "yes"를 입력하세요.
+12. 연습을 마치기 전에 인프라를 삭제하세요!
+
 
 ## Congratulations on Completing the Exercise!
 
-Congratulations on completing this exercise on refactoring configuration with the CLI and moved blocks! You've done an excellent job and should now have a better understanding of Terraform state manipulation. Keep up the great work!
+CLI와 moved block으로 Configuration을 리팩토링하는 이 연습을 완료한 것을 축하합니다! 훌륭하게 해냈으니 이제 테라폼 상태 조작에 대해 더 잘 이해하셨을 것입니다. 앞으로도 계속 열심히 하세요!
