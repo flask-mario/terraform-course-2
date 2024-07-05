@@ -1,15 +1,17 @@
-# Importing Lambda Resources into Terraform
+# 람다 리소스를 테라폼으로 가져오기
 
-This project focuses on importing existing AWS resources into Terraform. The primary goal is to learn how to use code generation features from Terraform to help us import several infrastructure components. The project will guide you through the process of creating, importing, and managing Lambda functions. It's important to note that all resources created during this project should be deleted at the end to avoid unnecessary costs.
+이 프로젝트는 기존 AWS 리소스를 Terraform으로 가져오는 데 중점을 둡니다. 주요 목표는 Terraform의 코드 생성 기능을 사용하여 여러 인프라 구성 요소를 가져오는 데 도움이 되는 방법을 배우는 것입니다. 이 프로젝트는 Lambda 함수를 생성하고, 가져오고, 관리하는 과정을 안내합니다. 이 프로젝트에서 생성된 모든 리소스는 불필요한 비용을 피하기 위해 마지막에 삭제해야 한다는 점에 유의하세요.
 
 ## Desired Outcome
 
-1. Create a Lambda function manually in the AWS console.
-    1. Use the hello-world blueprint.
-    2. For the execution role, select the "Create a new role with basic permissions" option.
-2. Identify all the resources that were created when creating the Lambda function.
-3. Import the Lambda function and its code into Terraform.
-    1. **Hint:** Lambda function code can be provided via a ZIP file. Terraform offers ZIP file management via the `archive` provider.
-4. Import the other created resources into Terraform.
-5. Use as much configuration generation as possible, always keeping in mind that the generated code should be first refined before being definitely added to the project.
-6. Make sure to delete all the resources at the end of the project!
+
+1. AWS 콘솔에서 Lambda 함수를 수동으로 생성합니다.
+    1. hello-world 블루프린트를 사용합니다.
+    2. 실행 역할로 "기본 권한으로 새 역할 생성" 옵션을 선택합니다.
+2. Lambda 함수를 생성할 때 생성된 모든 리소스를 식별합니다.
+3. Lambda 함수와 코드를 Terraform으로 가져옵니다.
+    1. **힌트:** Lambda 함수 코드는 ZIP 파일로 제공할 수 있습니다. Terraform은 `archive` 프로바이더를 통해 ZIP 파일 관리를 제공합니다.
+4. 다른 생성된 리소스를 Terraform으로 가져옵니다.
+5. 가능한 한 많은 구성 생성을 사용하되, 생성된 코드를 최종적으로 프로젝트에 추가하기 전에 먼저 정제해야 합니다.
+6. 프로젝트의 끝에 모든 리소스를 삭제하는 것을 잊지 마세요!
+
